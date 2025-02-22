@@ -1,11 +1,6 @@
 package com.documents.form;
 
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.function.Consumer;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -14,22 +9,18 @@ import com.documents.model.AbstractDocument;
 import com.documents.model.InvoiceDocument;
 import com.documents.form.AbstractDocumentForm;
 
+import com.documents.util.InputProcessor;
+
 public class InvoiceDocumentForm extends AbstractDocumentForm {
     private static String[] fields = new String[] {"Номер", "Дата", "Пользователь", "Сумма", "Валюта", "Курс", "Товар", "Количество"};
-    //private static Map<String, TextField> field_textField = new HashMap<String, TextField>();
 
     public InvoiceDocumentForm() {
         super(new InvoiceDocument(), fields);
     }
 
-    private LocalDate getDateFromTextField(TextField textField) {
-       DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy"); 
-       return LocalDate.parse(textField.getText(), formatter);
-    }
-
     @Override
     public AbstractDocument getFilledDocument() {
-        LocalDate date = getDateFromTextField(field_textField.get("Дата"));
+        LocalDate date = InputProcessor.getDateFromTextField(field_textField.get("Дата"));
         String user = field_textField.get("Пользователь").getText();
         String number = field_textField.get("Номер").getText();
         String currency = field_textField.get("Валюта").getText();

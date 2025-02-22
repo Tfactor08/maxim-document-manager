@@ -21,6 +21,8 @@ public abstract class AbstractDocumentForm extends Stage {
     protected Map<String, TextField> field_textField;
 
     public AbstractDocumentForm(AbstractDocument document, String[] fields) {
+        this.document = document;
+
         this.setTitle(document.getName());
         this.initModality(Modality.APPLICATION_MODAL);
 
@@ -48,6 +50,10 @@ public abstract class AbstractDocumentForm extends Stage {
         // Set the scene
         Scene scene = new Scene(vbox);
         this.setScene(scene);
+    }
+
+    public String getDocumentName() {
+        return document.getName();
     }
 
     //protected abstract void initializeForm();
