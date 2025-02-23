@@ -6,8 +6,11 @@ import java.util.ArrayList;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import com.documents.model.AbstractDocument;
 import com.documents.model.InvoiceDocument;
@@ -19,6 +22,7 @@ import com.documents.form.InvoiceDocumentForm;
 public class DocumentManagerApplication extends Application {
 
     private List<AbstractDocumentForm> forms;
+    private ObservableList<AbstractDocument> documents;
 
     public static void main(String[] args) {
         launch(args);
@@ -31,6 +35,9 @@ public class DocumentManagerApplication extends Application {
 
         VBox root = new VBox();
 
+        documents = FXCollections.observableArrayList();
+        ListView<AbstractDocument> listView = new ListView<>(documents);       
+
         for (var form : forms) {
             Button newDocumentBtn = new Button(form.getDocumentName());
 
@@ -39,11 +46,15 @@ public class DocumentManagerApplication extends Application {
                 form.showAndWait();
                 AbstractDocument document = form.getDocument();
                 System.out.println(document);
+                if (document != null)
+                    documents.add(document);
                 newDocumentBtn.setDisable(false);
             });
 
             root.getChildren().addAll(newDocumentBtn);
         }
+
+        root.getChildren().add(listView);
 
         Scene scene = new Scene(root, 300, 200);
         primaryStage.setTitle("Document Manager");
