@@ -14,7 +14,7 @@ import com.documents.model.InvoiceDocument;
 import com.documents.form.AbstractDocumentForm;
 import com.documents.form.InvoiceDocumentForm;
 
-// TODO: add fields validation; handle null document object; add all the other document types; add list of created documents to the main form
+// TODO: add fields validation (validate invalid date input and allow floating numbers); handle null document object; add all the other document types; add list of created documents to the main form; refactor the abstract document form class constructor -- create private methods for decomposition
 
 public class DocumentManagerApplication extends Application {
 
@@ -37,7 +37,7 @@ public class DocumentManagerApplication extends Application {
             newDocumentBtn.setOnAction(e -> {
                 newDocumentBtn.setDisable(true);
                 form.showAndWait();
-                AbstractDocument document = form.getFilledDocument();
+                AbstractDocument document = form.getDocument();
                 System.out.println(document);
                 newDocumentBtn.setDisable(false);
             });
