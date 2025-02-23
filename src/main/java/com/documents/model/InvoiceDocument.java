@@ -12,10 +12,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @Setter
 @Getter
-@ToString
 public class InvoiceDocument extends AbstractDocument {
-    private String number;
-    private LocalDate date;
     private String user;
     private double amount;
     private String currency;
