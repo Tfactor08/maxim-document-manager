@@ -12,10 +12,8 @@ import javafx.stage.Stage;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import com.documents.model.AbstractDocument;
-import com.documents.model.InvoiceDocument;
-import com.documents.form.AbstractDocumentForm;
-import com.documents.form.InvoiceDocumentForm;
+import com.documents.model.*;
+import com.documents.form.*;
 
 // TODO: add fields validation (validate invalid date input and allow floating numbers); handle null document object; add all the other document types; add list of created documents to the main form; refactor the abstract document form class constructor -- create private methods for decomposition
 
@@ -32,6 +30,8 @@ public class DocumentManagerApplication extends Application {
     public void start(Stage primaryStage) {
         forms = new ArrayList<>();
         forms.add(new InvoiceDocumentForm());
+        forms.add(new RequestDocumentForm());
+        forms.add(new PaymentDocumentForm());
 
         VBox root = new VBox();
 

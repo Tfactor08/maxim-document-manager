@@ -9,6 +9,7 @@ import lombok.Getter;
 @Setter
 public abstract class AbstractDocument {
     protected String number;
+    protected String user;
     protected LocalDate date;
 
     public abstract String getName();

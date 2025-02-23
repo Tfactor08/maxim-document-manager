@@ -12,9 +12,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class PaymentDocument extends AbstractDocument {
-    private String number;
-    private LocalDate date;
-    private String user;
     private double amount;
     private String employee;
 

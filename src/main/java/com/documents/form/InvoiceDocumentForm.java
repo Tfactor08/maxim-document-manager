@@ -12,7 +12,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextFormatter;
-import javafx.util.converter.IntegerStringConverter;
 
 import com.documents.model.AbstractDocument;
 import com.documents.model.InvoiceDocument;

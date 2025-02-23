@@ -12,9 +12,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class RequestDocument extends AbstractDocument {
-    private String number;
-    private LocalDate date;
-    private String user;
     private String counterParty;
     private double amount;
     private String currency;
