@@ -57,4 +57,25 @@ public class RequestDocumentForm extends AbstractDocumentForm {
         ((RequestDocument)this.document).setCounterParty(counterParty);
         ((RequestDocument)this.document).setCommission(commission);
     }
+
+    @Override
+    protected void fillFields() {
+        LocalDate date = ((RequestDocument)document).getDate();
+        String user = ((RequestDocument)document).getUser();
+        String number = ((RequestDocument)document).getNumber();
+        String currency = ((RequestDocument)document).getCurrency();
+        String amount = String.valueOf(((RequestDocument)document).getAmount());
+        String exchangeRate = String.valueOf(((RequestDocument)document).getExchangeRate());
+        String counterParty = String.valueOf(((RequestDocument)document).getCounterParty());
+        String commission = String.valueOf(((RequestDocument)document).getCommission());
+
+        ((DatePicker)fieldAndInputControl.get("Дата")).setValue(date);
+        ((TextField)fieldAndInputControl.get("Пользователь")).setText(user);
+        ((TextField)fieldAndInputControl.get("Номер")).setText(number);
+        ((TextField)fieldAndInputControl.get("Валюта")).setText(currency);
+        ((NumberTextField)fieldAndInputControl.get("Сумма")).setText(amount);
+        ((NumberTextField)fieldAndInputControl.get("Курс")).setText(exchangeRate);
+        ((TextField)fieldAndInputControl.get("Контрагент")).setText(counterParty);
+        ((NumberTextField)fieldAndInputControl.get("Комиссия")).setText(commission);
+    }
 }

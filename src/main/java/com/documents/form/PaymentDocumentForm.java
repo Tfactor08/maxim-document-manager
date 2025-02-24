@@ -48,4 +48,19 @@ public class PaymentDocumentForm extends AbstractDocumentForm {
         ((PaymentDocument)this.document).setAmount(amount);
         ((PaymentDocument)this.document).setEmployee(employee);
     }
+
+    @Override
+    protected void fillFields() {
+        LocalDate date = ((PaymentDocument)document).getDate();
+        String user = ((PaymentDocument)document).getUser();
+        String number = ((PaymentDocument)document).getNumber();
+        String amount = String.valueOf(((PaymentDocument)document).getAmount());
+        String employee = ((PaymentDocument)document).getEmployee();
+
+        ((DatePicker)fieldAndInputControl.get("Дата")).setValue(date);
+        ((TextField)fieldAndInputControl.get("Пользователь")).setText(user);
+        ((TextField)fieldAndInputControl.get("Номер")).setText(number);
+        ((NumberTextField)fieldAndInputControl.get("Сумма")).setText(amount);
+        ((TextField)fieldAndInputControl.get("Сотрудник")).setText(employee);
+    }
 }

@@ -6,6 +6,7 @@ import java.util.HashMap;
 import javafx.stage.WindowEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.geometry.Insets;
 import javafx.scene.control.Control;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
@@ -34,6 +35,7 @@ public abstract class AbstractDocumentForm extends Stage {
 
         // Layout
         vbox = new VBox();
+        vbox.setPadding(new Insets(10));
 
         // Create UI components
         var submitButton = new Button("Ok");
@@ -61,6 +63,7 @@ public abstract class AbstractDocumentForm extends Stage {
 
     protected abstract void initDocument();
     protected abstract void fillDocument();
+    protected abstract void fillFields();
 
     private void setDocumentToNull() {
         this.document = null;
@@ -85,6 +88,12 @@ public abstract class AbstractDocumentForm extends Stage {
     public AbstractDocument getDocument() {
         return this.document;
     };
+
+    public void showDocumentAndWait(AbstractDocument document) {
+        this.document = document;
+        fillFields();
+        super.showAndWait();
+    }
 
     //protected abstract void initializeForm();
 }
