@@ -4,8 +4,12 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.HashMap;
+import java.io.File;
+import java.io.IOException;
 
 import javafx.application.Application;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -13,11 +17,14 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import javafx.stage.FileChooser;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import com.documents.model.*;
 import com.documents.form.*;
+
+import com.documents.service.DocumentService;
 
 // TODO: add fields validation (validate invalid date input and allow floating numbers); add documents deletion feature; refactor the abstract document form class constructor -- create private methods for decomposition
 
@@ -25,6 +32,7 @@ public class DocumentManagerApplication extends Application {
 
     private Map<String, AbstractDocumentForm> documentNameAndForm;
     private ObservableList<AbstractDocument> documents;
+    private DocumentService documentService;
 
     public static void main(String[] args) {
         launch(args);
@@ -40,6 +48,8 @@ public class DocumentManagerApplication extends Application {
             paymentDocumentForm.getDocumentName(), paymentDocumentForm,
             requestDocumentForm.getDocumentName(), requestDocumentForm
         );
+
+        documentService = new DocumentService();
 
         BorderPane root = new BorderPane();
         VBox buttonBox = new VBox(10);
@@ -75,6 +85,32 @@ public class DocumentManagerApplication extends Application {
                 updateDocumentInListview(selectedDocument, form.getDocument());
         });
         buttonBox.getChildren().add(viewButton);
+
+        var saveButton = new Button("Сохранить");
+        saveButton.setOnAction(e -> {
+            AbstractDocument selectedDocument = listView.getSelectionModel().getSelectedItem();
+            if (selectedDocument == null)
+                return;
+            var fileChooser = new FileChooser();
+            fileChooser.setTitle("Сохранить в файл");
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Text Files", "*.txt"));
+            File file = fileChooser.showSaveDialog(primaryStage);
+            if (file == null)
+                return;
+
+            try {
+                documentService.saveToFile(selectedDocument, file);
+                var alert = new Alert(AlertType.INFORMATION);
+                alert.setContentText("Документ сохранён");
+                alert.showAndWait();
+            }
+            catch (IOException ioe) {
+                var alert = new Alert(AlertType.WARNING);
+                alert.setContentText(ioe.getMessage());
+                alert.showAndWait();
+            }
+        });
+        buttonBox.getChildren().add(saveButton);
 
         root.setCenter(listView);
         root.setRight(buttonBox);

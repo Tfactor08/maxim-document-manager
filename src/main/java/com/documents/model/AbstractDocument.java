@@ -18,4 +18,8 @@ public abstract class AbstractDocument {
     public String toString() {
         return String.format("%s от %s номер %s", getName(), date, number);
     }
+
+    public String getFullDesc() {
+        return String.format("%s\nДата: %s\nНомер: %s\nПользователь: %s\n", getName(), date, number, user);
+    }
 }

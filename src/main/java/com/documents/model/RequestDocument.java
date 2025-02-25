@@ -22,4 +22,10 @@ public class RequestDocument extends AbstractDocument {
     public String getName() {
         return "Заявка на оплату";
     }
+
+    @Override
+    public String getFullDesc() {
+        String start = super.getFullDesc();
+        return String.format("%sСумма: %s\nВалюта: %s\nКурс: %s\nКонтрагент: %s\nКомиссия: %s", start, amount, currency, exchangeRate, counterParty, commission);
+    }
 }

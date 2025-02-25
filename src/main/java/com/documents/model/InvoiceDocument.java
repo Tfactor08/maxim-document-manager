@@ -13,7 +13,6 @@ import lombok.ToString;
 @Setter
 @Getter
 public class InvoiceDocument extends AbstractDocument {
-    private String user;
     private double amount;
     private String currency;
     private double exchangeRate;
@@ -23,6 +22,12 @@ public class InvoiceDocument extends AbstractDocument {
     @Override
     public String getName() {
         return "Накладная";
+    }
+
+    @Override
+    public String getFullDesc() {
+        String start = super.getFullDesc();
+        return String.format("%sСумма: %s\nВалюта: %s\nКурс: %s\nТовар: %s\nКоличество: %s", start, amount, currency, exchangeRate, product, quantity);
     }
 
     //public InvoiceDocument() { }

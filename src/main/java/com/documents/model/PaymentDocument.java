@@ -19,4 +19,10 @@ public class PaymentDocument extends AbstractDocument {
     public String getName() {
         return "Платёжка";
     }
+
+    @Override
+    public String getFullDesc() {
+        String start = super.getFullDesc();
+        return String.format("%sСумма: %s\nСотрудник: %s", start, amount, employee);
+    }
 }
