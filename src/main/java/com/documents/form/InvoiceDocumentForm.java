@@ -33,17 +33,6 @@ public class InvoiceDocumentForm extends AbstractDocumentForm {
 
     public InvoiceDocumentForm() {
         super(fieldAndInputControl);
-
-        //TextFormatter<String> dateFormatter = new TextFormatter<>(change -> {
-        //    String newText = change.getControlNewText(); // Get the updated text
-        //    if (newText.isEmpty()) {
-        //        return change; // Allow empty input
-        //    }
-        //    if (isDateValid(newText, "dd-MM-yyyy")) {
-        //        return change; // Allow valid date input
-        //    }
-        //    return null; // Reject invalid input
-        //});
     }
 
     @Override
@@ -91,16 +80,5 @@ public class InvoiceDocumentForm extends AbstractDocumentForm {
         ((NumberTextField)fieldAndInputControl.get("Курс")).setText(exchangeRate);
         ((NumberTextField)fieldAndInputControl.get("Товар")).setText(product);
         ((NumberTextField)fieldAndInputControl.get("Количество")).setText(quantity);
-    }
-
-    private boolean isDateValid(String input, String format) {
-        SimpleDateFormat sdf = new SimpleDateFormat(format);
-        sdf.setLenient(false); // Disable lenient parsing (strict format checking)
-        try {
-            sdf.parse(input); // Try to parse the input
-            return true; // Input is a valid date
-        } catch (ParseException e) {
-            return false; // Input is not a valid date
-        }
     }
 }
