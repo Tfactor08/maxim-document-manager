@@ -3,8 +3,8 @@
 ### Features
 - Creating three types of documents
 - Viewing and changing added documents
-### In future:
 - Saving and reading documents from fiies
+### In future:
 - Storing documents in a database
 
 ### Implementation
