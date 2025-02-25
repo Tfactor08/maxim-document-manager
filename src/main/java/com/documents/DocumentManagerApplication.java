@@ -40,6 +40,31 @@ public class DocumentManagerApplication extends Application {
 
     @Override
     public void start(Stage primaryStage) {
+        initDocumentForms();
+        documents = FXCollections.observableArrayList();
+        ListView<AbstractDocument> listView = new ListView<>(documents);       
+        documentService = new DocumentService();
+
+        BorderPane root = new BorderPane();
+        VBox buttonBox = new VBox(10);
+        root.setPadding(new Insets(10));
+        buttonBox.setPadding(new Insets(0, 0, 0, 10));
+
+        createDocCreationButtons(buttonBox);
+        createViewButton(buttonBox, listView);
+        createSaveButton(buttonBox, listView, primaryStage);
+        createLoadButton(buttonBox, primaryStage);
+
+        root.setCenter(listView);
+        root.setRight(buttonBox);
+
+        Scene scene = new Scene(root, 700, 400);
+        primaryStage.setTitle("Document Manager");
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
+    private void initDocumentForms() {
         var invoiceDocumentForm = new InvoiceDocumentForm();
         var paymentDocumentForm = new PaymentDocumentForm();
         var requestDocumentForm = new RequestDocumentForm();
@@ -49,16 +74,9 @@ public class DocumentManagerApplication extends Application {
             requestDocumentForm.getDocumentName(), requestDocumentForm
         );
 
-        documentService = new DocumentService();
+    }
 
-        BorderPane root = new BorderPane();
-        VBox buttonBox = new VBox(10);
-        root.setPadding(new Insets(10));
-        buttonBox.setPadding(new Insets(0, 0, 0, 10));
-
-        documents = FXCollections.observableArrayList();
-        ListView<AbstractDocument> listView = new ListView<>(documents);       
-
+    private void createDocCreationButtons(VBox box) {
         for (var form : documentNameAndForm.values()) {
             Button newDocumentBtn = new Button(form.getDocumentName());
 
@@ -69,9 +87,11 @@ public class DocumentManagerApplication extends Application {
                     documents.add(document);
             });
 
-            buttonBox.getChildren().add(newDocumentBtn);
+            box.getChildren().add(newDocumentBtn);
         }
+    }
 
+    private void createViewButton(VBox box, ListView<AbstractDocument> listView) {
         var viewButton = new Button("Просмотр");
         viewButton.setOnAction(e -> {
             AbstractDocument selectedDocument = listView.getSelectionModel().getSelectedItem();
@@ -83,8 +103,10 @@ public class DocumentManagerApplication extends Application {
             if (updatedDoc != null)
                 updateDocumentInListview(selectedDocument, form.getDocument());
         });
-        buttonBox.getChildren().add(viewButton);
+        box.getChildren().add(viewButton);
+    }
 
+    private void createSaveButton(VBox box, ListView<AbstractDocument> listView, Stage primaryStage) {
         var saveButton = new Button("Сохранить");
         saveButton.setOnAction(e -> {
             AbstractDocument selectedDocument = listView.getSelectionModel().getSelectedItem();
@@ -109,8 +131,10 @@ public class DocumentManagerApplication extends Application {
                 alert.showAndWait();
             }
         });
-        buttonBox.getChildren().add(saveButton);
+        box.getChildren().add(saveButton);
+    }
 
+    private void createLoadButton(VBox box, Stage primaryStage) {
         var readButton = new Button("Загрузить");
         readButton.setOnAction(e -> {
             var fileChooser = new FileChooser();
@@ -131,16 +155,9 @@ public class DocumentManagerApplication extends Application {
                 alert.showAndWait();
             }
         });
-        buttonBox.getChildren().add(readButton);
-
-        root.setCenter(listView);
-        root.setRight(buttonBox);
-
-        Scene scene = new Scene(root, 700, 400);
-        primaryStage.setTitle("Document Manager");
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        box.getChildren().add(readButton);
     }
+
 
     private void updateDocumentInListview(AbstractDocument oldDoc, AbstractDocument newDoc) {
         var oldDocIndex = documents.indexOf(oldDoc);
