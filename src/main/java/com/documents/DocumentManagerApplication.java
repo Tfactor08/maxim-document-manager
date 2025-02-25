@@ -65,7 +65,6 @@ public class DocumentManagerApplication extends Application {
             newDocumentBtn.setOnAction(e -> {
                 form.showAndWait();
                 AbstractDocument document = form.getDocument();
-                System.out.println(document);
                 if (document != null)
                     documents.add(document);
             });
@@ -111,6 +110,28 @@ public class DocumentManagerApplication extends Application {
             }
         });
         buttonBox.getChildren().add(saveButton);
+
+        var readButton = new Button("Загрузить");
+        readButton.setOnAction(e -> {
+            var fileChooser = new FileChooser();
+            fileChooser.setTitle("Загрузить из файла");
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Text Files", "*.txt"));
+            File file = fileChooser.showOpenDialog(primaryStage);
+            if (file == null)
+                return;
+
+            try {
+                AbstractDocument document = documentService.readFromFile(file);
+                if (document != null)
+                    documents.add(document);
+            }
+            catch (IOException ioe) {
+                var alert = new Alert(AlertType.WARNING);
+                alert.setContentText(ioe.getMessage());
+                alert.showAndWait();
+            }
+        });
+        buttonBox.getChildren().add(readButton);
 
         root.setCenter(listView);
         root.setRight(buttonBox);
