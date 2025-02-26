@@ -4,14 +4,8 @@ import java.util.Map;
 import java.util.HashMap;
 
 import java.time.LocalDate;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 
-import javafx.scene.control.Control;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextFormatter;
+import javafx.scene.control.*;
 
 import com.documents.model.AbstractDocument;
 import com.documents.model.InvoiceDocument;

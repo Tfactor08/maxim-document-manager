@@ -8,16 +8,16 @@ import java.io.File;
 import java.io.IOException;
 
 import javafx.application.Application;
+import javafx.stage.Stage;
+import javafx.stage.FileChooser;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.BorderPane;
-import javafx.stage.Stage;
-import javafx.stage.FileChooser;
+import javafx.geometry.Insets;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -26,7 +26,7 @@ import com.documents.form.*;
 
 import com.documents.service.DocumentService;
 
-// TODO: add fields validation (validate invalid date input and allow floating numbers); add documents deletion feature; refactor the abstract document form class constructor -- create private methods for decomposition
+// TODO: add fields validation (validate invalid date input and allow floating numbers); add documents deletion feature;
 
 public class DocumentManagerApplication extends Application {
 
