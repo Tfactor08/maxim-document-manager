@@ -3,20 +3,13 @@ package com.documents.form;
 import java.util.Map;
 import java.util.HashMap;
 
-import javafx.stage.WindowEvent;
-import javafx.event.EventHandler;
-import javafx.scene.Scene;
-import javafx.geometry.Insets;
-import javafx.scene.control.Control;
-import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.layout.VBox;
+import javafx.geometry.Insets;
 
 import com.documents.model.AbstractDocument;
 
@@ -26,18 +19,40 @@ public abstract class AbstractDocumentForm extends Stage {
     protected AbstractDocument document;
     protected Map<String, Control> fieldAndInputControl;
 
-    public AbstractDocumentForm(Map<String, Control> fieldAndInputControl) {
-        initDocument();
+    protected abstract void initDocument();
+    protected abstract void fillDocument();
+    protected abstract void fillFields();
 
+    public AbstractDocumentForm(Map<String, Control> fieldAndInputControl) {
+        this.fieldAndInputControl = fieldAndInputControl;
+
+        initDocument();
+        initForm();
+        initLayout();
+
+        addInputFields();
+        addSubmitButton();
+
+        initScene();
+    }
+
+    private void initForm() {
         this.setTitle(document.getName());
         this.initModality(Modality.APPLICATION_MODAL);
         this.setOnCloseRequest(e -> setDocumentToNull());
+    }
 
-        // Layout
+    private void initLayout() {
         vbox = new VBox();
         vbox.setPadding(new Insets(10));
+    }
 
-        // Create UI components
+    private void initScene() {
+        var scene = new Scene(vbox);
+        setScene(scene);
+    }
+
+    private void addSubmitButton() {
         var submitButton = new Button("Ok");
         submitButton.setOnAction(event -> {
             try {
@@ -49,21 +64,16 @@ public abstract class AbstractDocumentForm extends Stage {
                 System.out.println(e);
             }
         });
+        vbox.getChildren().add(submitButton);
+    }
 
+    private void addInputFields() {
         for (var fieldAndInputControlItem : fieldAndInputControl.entrySet()) {
             var label = new Label(fieldAndInputControlItem.getKey());
             var inputControl = fieldAndInputControlItem.getValue();
             vbox.getChildren().addAll(label, inputControl);
         }
-        vbox.getChildren().add(submitButton);
-
-        var scene = new Scene(vbox);
-        setScene(scene);
     }
-
-    protected abstract void initDocument();
-    protected abstract void fillDocument();
-    protected abstract void fillFields();
 
     private void setDocumentToNull() {
         this.document = null;
@@ -87,13 +97,11 @@ public abstract class AbstractDocumentForm extends Stage {
 
     public AbstractDocument getDocument() {
         return this.document;
-    };
+    }
 
     public void showDocumentAndWait(AbstractDocument document) {
         this.document = document;
         fillFields();
         super.showAndWait();
     }
-
-    //protected abstract void initializeForm();
 }
