@@ -7,12 +7,15 @@ import java.util.HashMap;
 import java.io.File;
 import java.io.IOException;
 
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.boot.SpringApplication;
+
 import javafx.application.Application;
 import javafx.stage.Stage;
+import javafx.scene.Scene;
 import javafx.stage.FileChooser;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.VBox;
@@ -29,6 +32,7 @@ import com.documents.service.DocumentService;
 // TODO: add fields validation (validate invalid date input and allow floating numbers); add documents deletion feature;
 
 public class DocumentManagerApplication extends Application {
+    private ConfigurableApplicationContext springContext;
 
     private Map<String, AbstractDocumentForm> documentNameAndForm;
     private ObservableList<AbstractDocument> documents;
@@ -36,6 +40,16 @@ public class DocumentManagerApplication extends Application {
 
     public static void main(String[] args) {
         launch(args);
+    }
+
+    @Override
+    public void init() throws Exception {
+        springContext = SpringApplication.run(SpringBootApp.class);
+    }
+
+    @Override
+    public void stop() throws Exception {
+        springContext.close();
     }
 
     @Override
