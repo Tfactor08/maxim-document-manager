@@ -2,12 +2,18 @@ package com.documents.model;
 
 import java.time.LocalDate;
 
+import jakarta.persistence.*;
+
 import lombok.Setter;
 import lombok.Getter;
 
 @Getter
 @Setter
+@MappedSuperclass
 public abstract class AbstractDocument {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    protected Long id;
     protected String number;
     protected String user;
     protected LocalDate date;

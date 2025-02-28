@@ -26,6 +26,7 @@ import javafx.collections.ObservableList;
 
 import com.documents.model.*;
 import com.documents.form.*;
+import com.documents.repository.*;
 
 import com.documents.service.DocumentService;
 
@@ -36,6 +37,7 @@ public class DocumentManagerApplication extends Application {
 
     private Map<String, AbstractDocumentForm> documentNameAndForm;
     private ObservableList<AbstractDocument> documents;
+    private InvoiceDocumentRepository invoiceDocumentRepository;
     private DocumentService documentService;
 
     public static void main(String[] args) {
@@ -45,6 +47,7 @@ public class DocumentManagerApplication extends Application {
     @Override
     public void init() throws Exception {
         springContext = SpringApplication.run(SpringBootApp.class);
+        invoiceDocumentRepository = springContext.getBean(InvoiceDocumentRepository.class);
     }
 
     @Override

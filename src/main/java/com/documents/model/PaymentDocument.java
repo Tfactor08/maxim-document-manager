@@ -2,11 +2,14 @@ package com.documents.model;
 
 import java.time.LocalDate;
 
+import jakarta.persistence.Entity;
+
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+@Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
