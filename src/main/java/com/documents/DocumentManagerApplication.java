@@ -30,7 +30,7 @@ import com.documents.repository.*;
 
 import com.documents.service.DocumentService;
 
-// TODO: add fields validation (validate invalid date input and allow floating numbers); add documents deletion feature;
+// TODO: add fields validation (validate invalid date input and allow floating numbers); add documents deletion feature; add DI for DocumentService; add saving and reading from db for all other documents; add document updating method in DocumentService; handle possible exception when user enters document with already existing id; 
 
 public class DocumentManagerApplication extends Application {
     private ConfigurableApplicationContext springContext;
@@ -47,7 +47,6 @@ public class DocumentManagerApplication extends Application {
     @Override
     public void init() throws Exception {
         springContext = SpringApplication.run(SpringBootApp.class);
-        invoiceDocumentRepository = springContext.getBean(InvoiceDocumentRepository.class);
     }
 
     @Override
@@ -57,15 +56,18 @@ public class DocumentManagerApplication extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        initDocumentForms();
         documents = FXCollections.observableArrayList();
-        ListView<AbstractDocument> listView = new ListView<>(documents);       
-        documentService = new DocumentService();
+        documentService = new DocumentService(springContext);
+
+        initDocumentForms();
+        addDocsFromDb();
 
         BorderPane root = new BorderPane();
         VBox buttonBox = new VBox(10);
         root.setPadding(new Insets(10));
         buttonBox.setPadding(new Insets(0, 0, 0, 10));
+
+        ListView<AbstractDocument> listView = new ListView<>(documents);       
 
         createDocCreationButtons(buttonBox);
         createViewButton(buttonBox, listView);
@@ -81,6 +83,11 @@ public class DocumentManagerApplication extends Application {
         primaryStage.show();
     }
 
+    private void addDocsFromDb() {
+        var docsFromDb = documentService.getDocumentsFromDb();
+        documents.addAll(docsFromDb);
+    }
+
     private void initDocumentForms() {
         var invoiceDocumentForm = new InvoiceDocumentForm();
         var paymentDocumentForm = new PaymentDocumentForm();
@@ -90,7 +97,6 @@ public class DocumentManagerApplication extends Application {
             paymentDocumentForm.getDocumentName(), paymentDocumentForm,
             requestDocumentForm.getDocumentName(), requestDocumentForm
         );
-
     }
 
     private void createDocCreationButtons(VBox box) {
@@ -100,8 +106,10 @@ public class DocumentManagerApplication extends Application {
             newDocumentBtn.setOnAction(e -> {
                 form.showAndWait();
                 AbstractDocument document = form.getDocument();
-                if (document != null)
-                    documents.add(document);
+                if (document == null)
+                    return;
+                documents.add(document);
+                documentService.saveToDb(document);
             });
 
             box.getChildren().add(newDocumentBtn);

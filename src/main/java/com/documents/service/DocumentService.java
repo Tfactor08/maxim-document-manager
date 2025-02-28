@@ -3,17 +3,39 @@ package com.documents.service;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.File;
-
 import java.util.Scanner;
 import java.util.ArrayList;
-
+import java.util.List;
 import java.time.LocalDate;
 
+import org.springframework.context.ConfigurableApplicationContext;
+
 import com.documents.model.*;
+import com.documents.repository.*;
 
 public class DocumentService {
+    private InvoiceDocumentRepository invoiceDocumentRepository;
+    private RequestDocumentRepository requestDocumentRepository;
+    private PaymentDocumentRepository paymentDocumentRepository;
+
     private FileWriter fileWriter;
     private Scanner scanner;
+
+    public DocumentService(ConfigurableApplicationContext springContext) {
+        invoiceDocumentRepository = springContext.getBean(InvoiceDocumentRepository.class);
+        requestDocumentRepository = springContext.getBean(RequestDocumentRepository.class);
+        paymentDocumentRepository = springContext.getBean(PaymentDocumentRepository.class);
+    }
+
+    public void saveToDb(AbstractDocument document) {
+        invoiceDocumentRepository.save((InvoiceDocument)document);
+    }
+
+    public List<AbstractDocument> getDocumentsFromDb() {
+        var docs = new ArrayList<AbstractDocument>();
+        docs.addAll(invoiceDocumentRepository.findAll());
+        return docs;
+    }
 
     public void saveToFile(AbstractDocument document, File file) throws IOException {
         fileWriter = new FileWriter(file);
