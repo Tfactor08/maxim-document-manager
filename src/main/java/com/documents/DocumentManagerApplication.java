@@ -30,7 +30,7 @@ import com.documents.repository.*;
 
 import com.documents.service.DocumentService;
 
-// TODO: add fields validation (validate invalid date input and allow floating numbers); add documents deletion feature; add DI for DocumentService; add saving and reading from db for all other documents; add document updating method in DocumentService; handle possible exception when user enters document with already existing id; 
+// TODO: add fields validation (validate invalid date input and allow floating numbers); add documents deletion feature; add DI for DocumentService; add saving and reading from db for all other documents; add document updating method in DocumentService; handle possible exception when user enters document with already existing id; update README
 
 public class DocumentManagerApplication extends Application {
     private ConfigurableApplicationContext springContext;
@@ -47,6 +47,7 @@ public class DocumentManagerApplication extends Application {
     @Override
     public void init() throws Exception {
         springContext = SpringApplication.run(SpringBootApp.class);
+        documentService = springContext.getBean(DocumentService.class);
     }
 
     @Override
@@ -57,7 +58,6 @@ public class DocumentManagerApplication extends Application {
     @Override
     public void start(Stage primaryStage) {
         documents = FXCollections.observableArrayList();
-        documentService = new DocumentService(springContext);
 
         initDocumentForms();
         addDocsFromDb();

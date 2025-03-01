@@ -8,11 +8,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.time.LocalDate;
 
+import org.springframework.stereotype.Service;
 import org.springframework.context.ConfigurableApplicationContext;
 
 import com.documents.model.*;
 import com.documents.repository.*;
 
+@Service
 public class DocumentService {
     private InvoiceDocumentRepository invoiceDocumentRepository;
     private RequestDocumentRepository requestDocumentRepository;
