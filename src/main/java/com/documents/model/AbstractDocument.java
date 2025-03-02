@@ -13,7 +13,6 @@ import lombok.Getter;
 public abstract class AbstractDocument {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    protected Long id;
     protected String number;
     protected String user;
     protected LocalDate date;

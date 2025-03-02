@@ -121,11 +121,15 @@ public class DocumentManagerApplication extends Application {
             AbstractDocument selectedDocument = listView.getSelectionModel().getSelectedItem();
             if (selectedDocument == null)
                 return;
+
             var form = documentNameAndForm.get(selectedDocument.getName());
             form.showDocumentAndWait(selectedDocument);
             var updatedDoc = form.getDocument();
-            if (updatedDoc != null)
-                updateDocumentInListview(selectedDocument, form.getDocument());
+            if (updatedDoc == null)
+                return;
+
+            updateDocumentInListview(selectedDocument, form.getDocument());
+            documentService.saveToDb(updatedDoc);
         });
         box.getChildren().add(viewButton);
     }

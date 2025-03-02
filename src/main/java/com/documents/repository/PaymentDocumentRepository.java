@@ -4,5 +4,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.documents.model.PaymentDocument;
 
-public interface PaymentDocumentRepository extends JpaRepository<PaymentDocument, Long> {
+public interface PaymentDocumentRepository extends JpaRepository<PaymentDocument, String> {
 }
