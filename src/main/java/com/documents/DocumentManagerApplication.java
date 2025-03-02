@@ -30,14 +30,13 @@ import com.documents.repository.*;
 
 import com.documents.service.DocumentService;
 
-// TODO: add fields validation (validate invalid date input and allow floating numbers); add documents deletion feature; add DI for DocumentService; add saving and reading from db for all other documents; add document updating method in DocumentService; handle possible exception when user enters document with already existing id; update README
+// TODO: add fields validation (validate invalid date input and allow floating numbers); add documents deletion feature; add document updating method in DocumentService; handle possible exception when user enters document with already existing id; update README
 
 public class DocumentManagerApplication extends Application {
     private ConfigurableApplicationContext springContext;
 
     private Map<String, AbstractDocumentForm> documentNameAndForm;
     private ObservableList<AbstractDocument> documents;
-    private InvoiceDocumentRepository invoiceDocumentRepository;
     private DocumentService documentService;
 
     public static void main(String[] args) {

@@ -6,9 +6,11 @@ import java.io.File;
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.time.LocalDate;
 
 import org.springframework.stereotype.Service;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.context.ConfigurableApplicationContext;
 
 import com.documents.model.*;
@@ -30,12 +32,24 @@ public class DocumentService {
     }
 
     public void saveToDb(AbstractDocument document) {
-        invoiceDocumentRepository.save((InvoiceDocument)document);
+        switch (document.getName()) {
+            case "Накладная":
+                invoiceDocumentRepository.save((InvoiceDocument)document);
+                break;
+            case "Заявка":
+                requestDocumentRepository.save((RequestDocument)document);
+                break;
+            case "Платёжка":
+                paymentDocumentRepository.save((PaymentDocument)document);
+                break;
+        }
     }
 
     public List<AbstractDocument> getDocumentsFromDb() {
         var docs = new ArrayList<AbstractDocument>();
         docs.addAll(invoiceDocumentRepository.findAll());
+        docs.addAll(requestDocumentRepository.findAll());
+        docs.addAll(paymentDocumentRepository.findAll());
         return docs;
     }
 
