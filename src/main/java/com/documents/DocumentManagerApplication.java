@@ -30,7 +30,7 @@ import com.documents.repository.*;
 
 import com.documents.service.DocumentService;
 
-// TODO: add fields validation (validate invalid date input and allow floating numbers); add documents deletion feature; add document updating method in DocumentService; handle possible exception when user enters document with already existing id; update README
+// TODO: add fields validation (validate invalid date input and allow floating numbers); add documents deletion feature; override clearFields(); handle possible exception when user enters document with already existing id; update README
 
 public class DocumentManagerApplication extends Application {
     private ConfigurableApplicationContext springContext;

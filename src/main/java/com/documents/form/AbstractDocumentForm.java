@@ -39,7 +39,10 @@ public abstract class AbstractDocumentForm extends Stage {
     private void initForm() {
         this.setTitle(document.getName());
         this.initModality(Modality.APPLICATION_MODAL);
-        this.setOnCloseRequest(e -> setDocumentToNull());
+        this.setOnCloseRequest(e -> {
+            setDocumentToNull();
+            clearFields();
+        });
     }
 
     private void initLayout() {
@@ -56,7 +59,8 @@ public abstract class AbstractDocumentForm extends Stage {
         var submitButton = new Button("Ok");
         submitButton.setOnAction(event -> {
             try {
-                this.fillDocument();
+                fillDocument();
+                clearFields();
                 super.close();
             }
             catch (Exception e) {
@@ -83,6 +87,14 @@ public abstract class AbstractDocumentForm extends Stage {
         var alert = new Alert(AlertType.WARNING);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    private void clearFields() {
+        for (var control : fieldAndInputControl.values())
+            if (control instanceof DatePicker dp)
+                dp.setValue(null);
+            else
+                ((TextField)control).clear();
     }
 
     @Override
